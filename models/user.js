@@ -1,17 +1,27 @@
 var mongoose = require("mongoose"),
     db = require("../db"),
     Schema = mongoose.Schema;
-
+/**
+ * 学校模型
+ */
 var SchoolSchema = new Schema({
     name:{type:String, required:true}
 });
 
+/**
+ * 班级模型
+ * @type {Schema}
+ */
 var ClassSchema = new Schema({
     name:{type:String,required:true},
     teacher:[{type: Schema.Types.ObjectId, ref: "User",index:true}],
     kids:[{type:Schema.Types.ObjectId ,ref:"User", index:true}]
 });
 
+/**
+ * 用户模型
+ * @type {Schema}
+ */
 var UserSchema = new Schema({
     name: {type: String, required: true},//名称
     password: String,//密码
@@ -25,7 +35,7 @@ var UserSchema = new Schema({
         relationName:String,//关系名:
         kid:{type: Schema.Types.ObjectId,ref:"User", index:true}
     }}],
-    classes:[{type:Schema.Types.ObjectId,ref:"Class", index:true}]//班级
+    classes:[{type:Schema.Types.ObjectId,ref:"Class", index:true}]//老师管理的班级
 });
 
 exports.School = db.mongoConn.model("School", UserSchema, "School");
